@@ -21,6 +21,7 @@ public class JobInstanceConfiguration {
     public Job HelloJob() {
         return jobBuilderFactory.get("helloJob")
                 .start(helloStep1())
+                .next(failStep())
                 .next(helloStep2())
                 .build();
     }
@@ -29,6 +30,15 @@ public class JobInstanceConfiguration {
     public Step helloStep1() {
         return stepBuilderFactory.get("helloStep")
                 .tasklet(new CustomTasklet())
+                .build();
+    }
+
+    @Bean
+    public Step failStep() {
+        return stepBuilderFactory.get("helloStep")
+                .tasklet(((stepContribution, chunkContext) -> {
+                    throw new RuntimeException("step failed");
+                }))
                 .build();
     }
 
