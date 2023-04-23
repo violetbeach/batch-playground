@@ -1,6 +1,8 @@
 package io.springbatch.springbatchlecture.config;
 
 import io.springbatch.springbatchlecture.tasklet.CustomTasklet;
+import io.springbatch.springbatchlecture.tasklet.ExecutionContextTaskletAfter;
+import io.springbatch.springbatchlecture.tasklet.ExecutionContextTaskletBefore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -53,6 +55,21 @@ public class JobInstanceConfiguration {
 
                     return RepeatStatus.FINISHED;
                 }))
+                .build();
+    }
+
+
+    @Bean
+    public Step executionContextStepBefore(ExecutionContextTaskletBefore before) {
+        return stepBuilderFactory.get("helloStep")
+                .tasklet(before)
+                .build();
+    }
+
+    @Bean
+    public Step executionContextStepBefore(ExecutionContextTaskletAfter after) {
+        return stepBuilderFactory.get("helloStep")
+                .tasklet(after)
                 .build();
     }
 
