@@ -5,6 +5,7 @@ import io.springbatch.springbatchlecture.tasklet.ExecutionContextTaskletAfter;
 import io.springbatch.springbatchlecture.tasklet.ExecutionContextTaskletBefore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -18,6 +19,7 @@ public class JobInstanceConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+    private final JobExecutionListener jobRepositoryListener;
 
     @Bean
     public Job HelloJob() {
@@ -25,6 +27,7 @@ public class JobInstanceConfiguration {
                 .start(helloStep1())
                 .next(failStep())
                 .next(helloStep2())
+                .listener(jobRepositoryListener)
                 .build();
     }
 
