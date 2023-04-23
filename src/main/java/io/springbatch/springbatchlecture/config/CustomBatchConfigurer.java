@@ -26,6 +26,6 @@ public class CustomBatchConfigurer extends BasicBatchConfigurer {
         factory.setTransactionManager(getTransactionManager());
         factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED");
         factory.setTablePrefix("SYSTEM_");
-        return factory.getObject());
+        return factory.getObject();
     }
 }
