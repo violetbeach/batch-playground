@@ -9,6 +9,8 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +63,23 @@ public class JobInstanceConfiguration {
                 .build();
     }
 
+    @Bean
+    public Job flowJob() {
+        return jobBuilderFactory.get("flowJob")
+                .start(flow())
+                .end()
+                .build();
+    }
+
+    @Bean
+    public Flow flow() {
+        FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("flow");
+        flowBuilder.start(helloStep1())
+                .next(helloStep2())
+                .end();
+
+        return flowBuilder.build();
+    }
 
     @Bean
     public Step executionContextStepBefore(ExecutionContextTaskletBefore before) {
