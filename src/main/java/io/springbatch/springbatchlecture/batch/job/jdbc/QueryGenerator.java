@@ -20,7 +20,7 @@ public class QueryGenerator {
     public static Map<String, Object> getParameterForQuery(String param, String value) {
         HashMap<String, Object> params = new HashMap<>();
         params.put(param, value);
-        return params
+        return params;
     }
 
 }
