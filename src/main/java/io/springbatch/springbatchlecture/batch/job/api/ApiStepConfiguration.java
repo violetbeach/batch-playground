@@ -16,6 +16,7 @@ import io.springbatch.springbatchlecture.service.TypeAService;
 import io.springbatch.springbatchlecture.service.TypeBService;
 import io.springbatch.springbatchlecture.service.TypeCService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -48,8 +49,9 @@ public class ApiStepConfiguration {
     private final DataSource dataSource;
     private static final int chunkSize = 10;
 
+    @SneakyThrows
     @Bean
-    public Step apiMasterStep() throws Exception {
+    public Step apiMasterStep() {
         return stepBuilderFactory.get("apiMasterStep")
                 .partitioner(apiSlaveStep().getName(), partitioner())
                 .step(apiSlaveStep())
