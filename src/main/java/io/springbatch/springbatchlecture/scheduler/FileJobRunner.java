@@ -16,8 +16,11 @@ public class FileJobRunner extends JobRunner {
 
     @Override
     protected void execute(ApplicationArguments args) {
-        JobDetail jobDetail = buildJobDetail(ApiScheduleJob.class, "fileJob","batch");
+        JobDetail jobDetail = buildJobDetail(FileScheduleJob.class, "fileJob","batch");
         Trigger trigger = buildJobTrigger("0 * * * * ?");
+
+        String[] sourceArgs = args.getSourceArgs();
+        jobDetail.getJobDataMap().put("requestDate", sourceArgs[0]);
 
         try {
             scheduler.scheduleJob(jobDetail, trigger);
